@@ -1,2 +1,2 @@
-# Grafico 1
+# Gráfico 1
  Desenvolvimento Gráfico 1
