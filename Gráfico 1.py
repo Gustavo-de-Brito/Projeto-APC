@@ -37,6 +37,7 @@ gráfico_de_linhas = [trace1, trace2]
 fig = go.Figure(gráfico_de_linhas)
 app = dash.Dash()
 app.layout = html.Div([
+    html.H1(children = 'Variação na procura de viagens aéreas no Brail'),
     dcc.Graph(figure = fig)
 ])
 
