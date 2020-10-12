@@ -6,9 +6,7 @@ import dash_html_components as html
 #Importação da biblioteca Plotly
 import plotly.offline as py
 import plotly.graph_objs as go
-py.init_notebook_mode(connected=True)
 
-#Leitura do documento .csv, separando as três fileiras do mesmo em três listas diferentes
 datas = []
 domesticas = []
 internacionais = []
@@ -33,11 +31,74 @@ trace2 = go.Scatter(x = datas,
 
 gráfico_de_linhas = [trace1, trace2]
 
-#Importação do gráfico("gráfico_de_linhas") para exibição no Dash
 fig = go.Figure(gráfico_de_linhas)
+
+fig.update_layout(
+    xaxis = dict(
+        showline = True,
+        showgrid = False,
+        showticklabels = False,
+        linecolor = 'rgb(204, 204, 204)',
+        linewidth = 2,
+        ticks = 'outside',
+    ),
+    yaxis = dict(
+        showgrid = True,
+        gridcolor = 'rgb(204, 204, 204)',
+        zeroline = False,
+        showline = False,
+        showticklabels = False
+    ),
+    autosize = True,
+    margin = dict(
+        autoexpand = True,
+        l = 100,
+        r = 20,
+        t = 100
+    ),
+    plot_bgcolor = 'white'
+)
+
+legenda_y = []
+valores_de_y = [-50, 0, 50, 100]
+
+for valor_y in valores_de_y:
+    legenda_y.append(dict(
+        xref = 'paper', x = 0, y = valor_y,
+        xanchor = 'right', yanchor = 'middle',
+        text ='{}%'.format(valor_y),
+        showarrow = False 
+    ))
+
+valores_de_x = []
+w = 1
+while w < len(datas) - 1:
+    valores_de_x.append(datas[w])
+    w = w + 21
+valores_de_x.append(datas[-1])
+
+taxa_de_variação_x = 1/(len(datas) - 1)
+coordenada_x = taxa_de_variação_x * 8
+p = 1
+variação_coordenadas_x = 0
+while p <= 21:
+    variação_coordenadas_x = variação_coordenadas_x + taxa_de_variação_x
+    p = p + 1
+
+for valor_x in valores_de_x:
+    legenda_y.append(dict(
+        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.1,
+        xanchor = 'right', yanchor = 'bottom',
+        text = valor_x,
+        showarrow = False 
+        ))
+    coordenada_x = coordenada_x + variação_coordenadas_x
+
+fig.update_layout(annotations=legenda_y)
+
+
 app = dash.Dash()
 app.layout = html.Div([
-    html.H1(children = 'Variação na procura de viagens aéreas no Brail'),
     dcc.Graph(figure = fig)
 ])
 
