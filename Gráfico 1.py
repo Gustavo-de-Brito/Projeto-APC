@@ -10,13 +10,15 @@ import plotly.graph_objs as go
 datas = []
 domesticas = []
 internacionais = []
+total_de_buscas = []
 dados = open('Gráfico 1.csv', 'r')
 for line in dados:
     line = line.strip()
-    Da, Do, In = line.split(';')
+    Da, Do, In, To = line.split(';')
     datas.append(Da)
     domesticas.append(Do)
     internacionais.append(In)
+    total_de_buscas.append(To)
 
 #Transformação dos dados no gráfico com os comandos do Plotly
 trace1 = go.Scatter(x = datas,
@@ -29,7 +31,12 @@ trace2 = go.Scatter(x = datas,
                    mode = 'lines',
                    name = 'Internacionais',)
 
-gráfico_de_linhas = [trace1, trace2]
+trace3 = go.Scatter(x = datas,
+                   y = total_de_buscas,
+                   mode = 'lines',
+                   name = 'Total de buscas',)
+
+gráfico_de_linhas = [trace1, trace2, trace3]
 
 fig = go.Figure(gráfico_de_linhas)
 
