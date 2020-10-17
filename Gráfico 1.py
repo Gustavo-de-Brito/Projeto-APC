@@ -1,9 +1,7 @@
-#Importação do Dash
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
-#Importação da biblioteca Plotly
 import plotly.offline as py
 import plotly.graph_objs as go
 
@@ -19,63 +17,91 @@ for line in dados:
     domesticas.append(Do)
     internacionais.append(In)
     total_de_buscas.append(To)
+del domesticas[0]
+del internacionais[0]
+del datas[0]
 
-#Transformação dos dados no gráfico com os comandos do Plotly
 trace1 = go.Scatter(x = datas,
                    y = domesticas,
+                   name = 'Domésticas',
+                   text = 'Domésticas',
                    mode = 'lines',
-                   name = 'Domésticas')
+                   line = dict(color = 'rgb(242, 5, 5)')
+                   )
 
 trace2 = go.Scatter(x = datas,
                    y = internacionais,
                    mode = 'lines',
-                   name = 'Internacionais',)
+                   name = 'Internacionais',
+                   line = dict(color = 'rgb(5, 13, 166)')
+                   )
 
 trace3 = go.Scatter(x = datas,
                    y = total_de_buscas,
                    mode = 'lines',
-                   name = 'Total de buscas',)
+                   name = 'Total de buscas',
+                   line = dict(color = 'rgb(13, 13, 13)')
+                   )
 
 gráfico_de_linhas = [trace1, trace2, trace3]
 
 fig = go.Figure(gráfico_de_linhas)
+
+fig.update_traces(
+    text = datas,
+    hoverinfo = 'y + text'
+)
 
 fig.update_layout(
     xaxis = dict(
         showline = True,
         showgrid = False,
         showticklabels = False,
-        linecolor = 'rgb(204, 204, 204)',
+        linecolor = 'rgb(63, 64, 63)',
         linewidth = 2,
         ticks = 'outside',
     ),
     yaxis = dict(
         showgrid = True,
-        gridcolor = 'rgb(204, 204, 204)',
+        gridcolor = 'rgb(63, 64, 63)',
         zeroline = False,
-        showline = False,
-        showticklabels = False
+        showline = True,
+        linecolor = "rgb(63, 64, 63)",
+        showticklabels = False,
+        ticksuffix = '%'
     ),
     autosize = True,
     margin = dict(
         autoexpand = True,
-        l = 100,
+        l = 150,
         r = 20,
-        t = 100
+        t = 40
     ),
-    plot_bgcolor = 'white'
+    plot_bgcolor = 'white',
+    hoverlabel = dict(
+        bgcolor = 'black',
+        bordercolor = 'orange',
+        align = 'auto',
+        font = dict(
+            family = 'Arial',
+            size = 16,
+            color = 'white'
+        )
+    )
 )
 
-legenda_y = []
+
+annotations = []
 valores_de_y = [-50, 0, 50, 100]
 
 for valor_y in valores_de_y:
-    legenda_y.append(dict(
+    annotations.append(dict(
         xref = 'paper', x = 0, y = valor_y,
         xanchor = 'right', yanchor = 'middle',
         text ='{}%'.format(valor_y),
         showarrow = False 
     ))
+
 
 valores_de_x = []
 w = 1
@@ -93,7 +119,7 @@ while p <= 21:
     p = p + 1
 
 for valor_x in valores_de_x:
-    legenda_y.append(dict(
+    annotations.append(dict(
         xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.1,
         xanchor = 'right', yanchor = 'bottom',
         text = valor_x,
@@ -101,7 +127,7 @@ for valor_x in valores_de_x:
         ))
     coordenada_x = coordenada_x + variação_coordenadas_x
 
-fig.update_layout(annotations=legenda_y)
+fig.update_layout(annotations = annotations)
 
 
 app = dash.Dash()
