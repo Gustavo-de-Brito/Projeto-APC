@@ -129,11 +129,11 @@ for valor_x in valores_de_x:
 
 fig.update_layout(annotations = annotations)
 
-py.plot(fig, filename = 'Gráfico1.html')
+#py.plot(fig, filename = 'Gráfico1.html')
 
-#app = dash.Dash()
-#app.layout = html.Div([
-#    dcc.Graph(figure = fig)
-#])
+app = dash.Dash()
+app.layout = html.Div([
+    dcc.Graph(figure = fig)
+])
 
-#app.run_server(debug = True, use_reloader = False)
+app.run_server(debug = True, use_reloader = False)
