@@ -59,7 +59,7 @@ fig.update_layout(
         showticklabels = False,
         linecolor = 'rgb(63, 64, 63)',
         linewidth = 2,
-        ticks = 'outside',
+        ticks = 'outside'
     ),
     yaxis = dict(
         showgrid = True,
@@ -96,7 +96,7 @@ valores_de_y = [-50, 0, 50, 100]
 
 for valor_y in valores_de_y:
     annotations.append(dict(
-        xref = 'paper', x = 0, y = valor_y,
+        xref = 'paper', x = 0.00005, y = valor_y,
         xanchor = 'right', yanchor = 'middle',
         text ='{}%'.format(valor_y),
         showarrow = False 
@@ -104,7 +104,7 @@ for valor_y in valores_de_y:
 
 
 valores_de_x = []
-w = 1
+w = 0
 while w < len(datas) - 1:
     valores_de_x.append(datas[w])
     w = w + 21
@@ -120,12 +120,38 @@ while p <= 21:
 
 for valor_x in valores_de_x:
     annotations.append(dict(
-        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.1,
+        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.08,
         xanchor = 'right', yanchor = 'bottom',
         text = valor_x,
         showarrow = False 
         ))
     coordenada_x = coordenada_x + variação_coordenadas_x
+coordenada_x = coordenada_x + variação_coordenadas_x
+
+annotations.append(dict(
+    xref = 'paper', yref = 'paper', x = 0.5, y = -0.16,
+    xanchor = 'center', yanchor = 'bottom',
+    text ='<b>Datas<b>',
+    font = dict(
+        family = 'Arial',
+        size = 16,
+        color = 'black'
+    ),
+    showarrow = False 
+    ))
+
+annotations.append(dict(
+    xref = 'paper', yref = 'paper', x = -0.05, y = 0.17,
+    xanchor = 'right', yanchor = 'bottom',
+    text ='<b>Porcentagem de busca de voos<b>',
+    textangle = -90,
+    font = dict(
+        family = 'Arial',
+        size = 16,
+        color = 'black'
+    ),
+    showarrow = False 
+    ))
 
 fig.update_layout(annotations = annotations)
 
