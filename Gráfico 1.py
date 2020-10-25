@@ -22,35 +22,33 @@ del internacionais[0]
 del datas[0]
 
 trace1 = go.Scatter(x = datas,
-                   y = domesticas,
+                   y = domesticas, 
                    name = 'Domésticas',
                    text = 'Domésticas',
                    mode = 'lines',
-                   line = dict(color = 'rgb(242, 5, 5)')
+                   line = dict(color = 'rgb(242, 5, 5)'),
+                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
                    )
 
 trace2 = go.Scatter(x = datas,
                    y = internacionais,
                    mode = 'lines',
                    name = 'Internacionais',
-                   line = dict(color = 'rgb(5, 13, 166)')
+                   line = dict(color = 'rgb(5, 13, 166)'),
+                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
                    )
 
 trace3 = go.Scatter(x = datas,
                    y = total_de_buscas,
                    mode = 'lines',
                    name = 'Total de buscas',
-                   line = dict(color = 'rgb(13, 13, 13)')
-                   )
+                   line = dict(color = 'rgb(13, 13, 13)'),
+                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+)
 
 gráfico_de_linhas = [trace1, trace2, trace3]
 
 fig = go.Figure(gráfico_de_linhas)
-
-fig.update_traces(
-    text = datas,
-    hoverinfo = 'y + text'
-)
 
 fig.update_layout(
     xaxis = dict(
@@ -79,8 +77,7 @@ fig.update_layout(
     ),
     plot_bgcolor = 'white',
     hoverlabel = dict(
-        bgcolor = 'black',
-        bordercolor = 'orange',
+        bgcolor = '#3F3F3F',
         align = 'auto',
         font = dict(
             family = 'Arial',
@@ -149,6 +146,18 @@ annotations.append(dict(
         family = 'Arial',
         size = 16,
         color = 'black'
+    ),
+    showarrow = False 
+    ))
+
+annotations.append(dict(
+    xref = 'paper', yref = 'paper', x = 0.5, y = -0.18,
+    xanchor = 'center', yanchor = 'top',
+    text = "Fonte: https://www.kayak.com.br/tendencias-viagens",
+    font = dict(
+        family = 'Arial',
+        size = 12,
+        color = 'Gray'
     ),
     showarrow = False 
     ))
