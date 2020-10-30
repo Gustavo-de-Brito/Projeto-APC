@@ -12,11 +12,11 @@ total_de_buscas = []
 dados = open('Gráfico 1.csv', 'r')
 for line in dados:
     line = line.strip()
-    Da, Do, In, To = line.split(';')
-    datas.append(Da)
-    domesticas.append(Do)
-    internacionais.append(In)
-    total_de_buscas.append(To)
+    data, domes, inter, total = line.split(';')
+    datas.append(data)
+    domesticas.append(domes)
+    internacionais.append(inter)
+    total_de_buscas.append(total)
 del domesticas[0]
 del internacionais[0]
 del datas[0]
