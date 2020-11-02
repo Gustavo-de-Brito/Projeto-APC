@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 
 import plotly.offline as py
 import plotly.graph_objs as go
@@ -20,38 +21,43 @@ for line in dados:
 del domesticas[0]
 del internacionais[0]
 del datas[0]
+del total_de_buscas[0]
 
 trace1 = go.Scatter(x = datas,
-                   y = domesticas, 
-                   name = 'Domésticas',
-                   text = 'Domésticas',
-                   mode = 'lines',
-                   line = dict(color = 'rgb(242, 5, 5)'),
-                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
-                   )
+                y = domesticas, 
+                name = 'Domésticas',
+                text = 'Domésticas',
+                mode = 'lines',
+                line = dict(color = 'rgb(242, 5, 5)'),
+                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                )
 
 trace2 = go.Scatter(x = datas,
-                   y = internacionais,
-                   mode = 'lines',
-                   name = 'Internacionais',
-                   line = dict(color = 'rgb(5, 13, 166)'),
-                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
-                   )
+                y = internacionais,
+                mode = 'lines',
+                name = 'Internacionais',
+                line = dict(color = 'rgb(5, 13, 166)'),
+                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                )
 
 trace3 = go.Scatter(x = datas,
-                   y = total_de_buscas,
-                   mode = 'lines',
-                   name = 'Total de buscas',
-                   line = dict(color = 'rgb(13, 13, 13)'),
-                   hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                y = total_de_buscas,
+                mode = 'lines',
+                name = 'Total de buscas',
+                line = dict(color = 'rgb(13, 13, 13)'),                
+                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
 )
 
 gráfico_de_linhas = [trace1, trace2, trace3]
 
 fig = go.Figure(gráfico_de_linhas)
 
+comandos = ['-', 'linear', 'log', 'date', 'category', 'multicategory']
+
 fig.update_layout(
     xaxis = dict(
+        rangeslider=dict(visible=True),
+        type = 'category',
         showline = True,
         showgrid = False,
         showticklabels = False,
@@ -71,7 +77,7 @@ fig.update_layout(
     autosize = True,
     margin = dict(
         autoexpand = True,
-        l = 150,
+        l = 100,
         r = 20,
         t = 40
     ),
@@ -99,7 +105,6 @@ for valor_y in valores_de_y:
         showarrow = False 
     ))
 
-
 valores_de_x = []
 w = 0
 while w < len(datas) - 1:
@@ -117,13 +122,13 @@ while p <= 21:
 
 for valor_x in valores_de_x:
     annotations.append(dict(
-        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.08,
+        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.088,
         xanchor = 'right', yanchor = 'bottom',
         text = valor_x,
         showarrow = False 
         ))
     coordenada_x = coordenada_x + variação_coordenadas_x
-coordenada_x = coordenada_x + variação_coordenadas_x
+
 
 annotations.append(dict(
     xref = 'paper', yref = 'paper', x = 0.5, y = -0.16,
@@ -138,9 +143,9 @@ annotations.append(dict(
     ))
 
 annotations.append(dict(
-    xref = 'paper', yref = 'paper', x = -0.05, y = 0.17,
+    xref = 'paper', x = -0.05, y = -100,
     xanchor = 'right', yanchor = 'bottom',
-    text ='<b>Porcentagem de busca de voos<b>',
+    text ='<b>Porcentagem de busca por voos<b>',
     textangle = -90,
     font = dict(
         family = 'Arial',
@@ -151,7 +156,7 @@ annotations.append(dict(
     ))
 
 annotations.append(dict(
-    xref = 'paper', yref = 'paper', x = 0.5, y = -0.18,
+    xref = 'paper', yref = 'paper', x = 0.5, y = -0.3,
     xanchor = 'center', yanchor = 'top',
     text = "Fonte: https://www.kayak.com.br/tendencias-viagens",
     font = dict(
@@ -163,7 +168,6 @@ annotations.append(dict(
     ))
 
 fig.update_layout(annotations = annotations)
-
 #py.plot(fig, filename = 'Gráfico1.html')
 
 app = dash.Dash()
