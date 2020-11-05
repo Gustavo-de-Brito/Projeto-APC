@@ -26,41 +26,56 @@ del total_de_buscas[0]
 trace1 = go.Scatter(x = datas,
                 y = domesticas, 
                 name = 'Domésticas',
-                text = 'Domésticas',
+                text = datas,
                 mode = 'lines',
                 line = dict(color = 'rgb(242, 5, 5)'),
-                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                hovertemplate = '%{y}'.center(8) + '<br>'  + '%{text}'
                 )
 
 trace2 = go.Scatter(x = datas,
                 y = internacionais,
                 mode = 'lines',
                 name = 'Internacionais',
+                text = datas,
                 line = dict(color = 'rgb(5, 13, 166)'),
-                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                hovertemplate = '%{y}'.center(8) + '<br>'  + '%{text}'
                 )
 
 trace3 = go.Scatter(x = datas,
                 y = total_de_buscas,
                 mode = 'lines',
                 name = 'Total de buscas',
+                text = datas,
                 line = dict(color = 'rgb(13, 13, 13)'),                
-                hovertemplate = ''.center(4)+'%{y:.2f}%<br>'+ ''.center(2)+'%{x}'+''.center(2)
+                hovertemplate = '%{y}'.center(8) + '<br>'  + '%{text}'
 )
 
 gráfico_de_linhas = [trace1, trace2, trace3]
 
 fig = go.Figure(gráfico_de_linhas)
 
-comandos = ['-', 'linear', 'log', 'date', 'category', 'multicategory']
+if len(datas) > 18:
+    variação_legenda_x = len(datas)//18
+else:
+    variação_legenda_x = 1
 
 fig.update_layout(
+    xaxis_title =dict(
+        text = "<b>Data<b>",
+        font = dict(
+            family = 'Arial',
+            color = 'black',
+            size = 16
+        )
+    ),
     xaxis = dict(
         rangeslider=dict(visible=True),
         type = 'category',
         showline = True,
+        tickmode = "linear",
+        tick0 = datas[0],
+        dtick = variação_legenda_x,
         showgrid = False,
-        showticklabels = False,
         linecolor = 'rgb(63, 64, 63)',
         linewidth = 2,
         ticks = 'outside'
@@ -77,10 +92,10 @@ fig.update_layout(
     autosize = True,
     margin = dict(
         autoexpand = True,
-        l = 100,
-        r = 20,
-        t = 40
+        t = 50,
+        l = 100
     ),
+    height = 580,
     plot_bgcolor = 'white',
     hoverlabel = dict(
         bgcolor = '#3F3F3F',
@@ -105,45 +120,8 @@ for valor_y in valores_de_y:
         showarrow = False 
     ))
 
-valores_de_x = []
-w = 0
-while w < len(datas) - 1:
-    valores_de_x.append(datas[w])
-    w = w + 21
-valores_de_x.append(datas[-1])
-
-taxa_de_variação_x = 1/(len(datas) - 1)
-coordenada_x = taxa_de_variação_x * 8
-p = 1
-variação_coordenadas_x = 0
-while p <= 21:
-    variação_coordenadas_x = variação_coordenadas_x + taxa_de_variação_x
-    p = p + 1
-
-for valor_x in valores_de_x:
-    annotations.append(dict(
-        xref = 'paper', yref = 'paper', x = coordenada_x, y = -0.088,
-        xanchor = 'right', yanchor = 'bottom',
-        text = valor_x,
-        showarrow = False 
-        ))
-    coordenada_x = coordenada_x + variação_coordenadas_x
-
-
 annotations.append(dict(
-    xref = 'paper', yref = 'paper', x = 0.5, y = -0.16,
-    xanchor = 'center', yanchor = 'bottom',
-    text ='<b>Datas<b>',
-    font = dict(
-        family = 'Arial',
-        size = 16,
-        color = 'black'
-    ),
-    showarrow = False 
-    ))
-
-annotations.append(dict(
-    xref = 'paper', x = -0.05, y = -100,
+    xref = 'paper', x = -0.05, y = -80,
     xanchor = 'right', yanchor = 'bottom',
     text ='<b>Porcentagem de busca por voos<b>',
     textangle = -90,
@@ -156,7 +134,7 @@ annotations.append(dict(
     ))
 
 annotations.append(dict(
-    xref = 'paper', yref = 'paper', x = 0.5, y = -0.3,
+    xref = 'paper', yref = 'paper', x = 0.5, y = -0.8,
     xanchor = 'center', yanchor = 'top',
     text = "Fonte: https://www.kayak.com.br/tendencias-viagens",
     font = dict(
